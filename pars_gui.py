@@ -18,10 +18,14 @@ form.setupUi(window)
 window.show()
 
 
+def clean_list(lst: list) -> list:
+    return [value for value in lst if len(value) > 3]
+
+
 def on_click():
 
-    urls = form.textEdit.toPlainText().split('\n')
-    xpaths = form.textEdit_2.toPlainText().split('\n')  
+    urls = clean_list(form.textEdit.toPlainText().split('\n'))
+    xpaths = clean_list(form.textEdit_2.toPlainText().split('\n'))
     form.label_4.setText('')
 
     async def get_page_data(session, url, xpaths) -> str:
@@ -32,7 +36,7 @@ def on_click():
                 data = []
                 for xpath in xpaths:
                     raw_data = tree.xpath(xpath)
-                    if raw_data !=[]:
+                    if raw_data != []:
                         text = raw_data[0].text
                         data.append(text)
                 data_str = ";".join(data) + '\n'
@@ -41,7 +45,6 @@ def on_click():
                 print('Не получилось')
             return resp_text
 
-
     async def load_site_data():
         async with aiohttp.ClientSession() as session:
             tasks = []
@@ -49,7 +52,7 @@ def on_click():
                 task = asyncio.create_task(get_page_data(session, url, xpaths))
                 tasks.append(task)
             await asyncio.gather(*tasks)
-            
+
     asyncio.run(load_site_data())
 
     with open('result.txt', 'w', encoding="utf-8") as file:
@@ -57,7 +60,6 @@ def on_click():
             form.textEdit_3.setText(''.join(all_data))
             file.write(data)
     form.label_4.setText('Сбор данных окончен')
-    print('Done')
 
 
 form.pushButton.clicked.connect(on_click)

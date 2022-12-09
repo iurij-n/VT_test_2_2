@@ -50,15 +50,15 @@ python -m venv venv
 - Активировать виртуальное окружение
 для Windows
 ```
-source venv/Scripts/actevate
+source venv/Scripts/activate
 ```
 для Linux
 ```
-source venv/bin/actevate
+source venv/bin/activate
 ```
 - Установить зависимости
 ```
-pip install -r requrements.txt
+pip install -r requirements.txt
 ```
 - Запустить приложение
 ```

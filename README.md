@@ -17,15 +17,24 @@ Desktop-приложение, реализующие следующие функ
 
 Данные для проверки работы программы:
 - Список URL
+
 https://www.chay.info/catalog/chay/angliyskiy_sadovnik.html
+
 https://www.chay.info/catalog/kofe/turetskiy_myed.html
+
 https://www.chay.info/catalog/kofe/martsipan.html
+
 https://www.chay.info/catalog/kofe/lesnoy_orekh.html
+
 https://www.chay.info/catalog/kofe/belgiyskie_vafli.html
+
 https://www.chay.info/catalog/kofe/chokolato_latte_makkiato_.html
 
+
 - Список xPath
+
 //*[@id="product_name"]
+
 //*[@id="product_price_current"]
 
 #### Инструкция по запуску

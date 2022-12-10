@@ -1,12 +1,16 @@
+import asyncio
+import pathlib
+
+import aiohttp
+import jinja2
+import weasyprint
+from lxml import html
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
-import asyncio
-import aiohttp
-import pathlib
-from lxml import html
 
+TEMPLATE_FILE = "template.html"
 
-here = pathlib.Path(__file__).parent
+# here = pathlib.Path(__file__).parent
 all_data = []
 
 Form, Window = uic.loadUiType('gui.ui')
@@ -19,7 +23,31 @@ window.show()
 
 
 def clean_list(lst: list) -> list:
+    '''
+    Убирает пустые строки
+    '''
     return [value for value in lst if len(value) > 3]
+
+
+def save_as_pdf(data: list) -> None:
+    '''
+    Создает HTML-файл с результатами парсинга на основе шаблона jinja2,
+    после этого преобразует полученный файл result.html в pdf.
+    '''
+    # Генерируем html-страницу на основе шаблона
+    templateLoader = jinja2.FileSystemLoader(searchpath="./")
+    templateEnv = jinja2.Environment(loader=templateLoader)
+    template = templateEnv.get_template(TEMPLATE_FILE)
+    outputText = template.render(data=data)
+
+    # Сохраняем результат в файл result.html
+    with open('result.html', 'w', encoding="utf-8") as file:
+        file.write(outputText)
+
+    # Конвертируем result.html в result.pdf
+    pdf = weasyprint.HTML('result.html').write_pdf()
+    with open('result.pdf', 'wb') as file:
+        file.write(pdf)
 
 
 def on_click():
@@ -59,6 +87,7 @@ def on_click():
         for data in all_data:
             form.textEdit_3.setText(''.join(all_data))
             file.write(data)
+    save_as_pdf([line.split(';') for line in all_data])
     form.label_4.setText('Сбор данных окончен')
 
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+    </head>
+
+    <body>
+        <h1>Результат парсинга</h1>
+        <hr>
+        <table border="1">
+            <tr>
+                <th>Название</th>
+                <th>Цена</th>
+            </tr>
+            {% for line in data %}
+            <tr>
+                {% for cell in line %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            
+        </table>
+    </body>    
+</html>
